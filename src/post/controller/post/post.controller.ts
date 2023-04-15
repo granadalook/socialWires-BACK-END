@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -23,7 +24,7 @@ export class PostController {
     description: 'Posts encontrado exitosamente',
     status: 200,
   })
-  @ApiBadRequestResponse({ description: 'No se encontraron post', status: 400 })
+  @ApiNotFoundResponse({ description: 'No se encontraron post', status: 404 })
   findAllPost(): Promise<post[]> {
     return this.postService.findAll();
   }
@@ -37,11 +38,28 @@ export class PostController {
     description: 'Post creado correctamente',
     status: 200,
   })
-  @ApiBadRequestResponse({
+  @ApiNotFoundResponse({
     description: 'Error al guardar el post',
-    status: 400,
+    status: 404,
   })
   createPost(@Body() payload: CreatePostDto): Promise<post> {
     return this.postService.create(payload);
+  }
+
+  @Get('filterByDate')
+  @ApiOperation({
+    summary: 'FILTRA LOS POSR POR FECHAS DE CREACION',
+    description: 'Se usa  para filtrar los post por fechas de creacion',
+  })
+  @ApiOkResponse({
+    description: 'Post encontrados corrctamente',
+    status: 200,
+  })
+  @ApiNotFoundResponse({ description: 'Error al buscar Post ', status: 404 })
+  async filterByDate(
+    @Query('fromDate') fromDate: Date,
+    @Query('toDate') toDate: Date,
+  ): Promise<post[]> {
+    return this.postService.findByDate(fromDate, toDate);
   }
 }

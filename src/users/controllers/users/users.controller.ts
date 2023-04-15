@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -36,9 +37,9 @@ export class UsersController {
     description: 'Usuarios encontrados exitosamente',
     status: 200,
   })
-  @ApiBadRequestResponse({
+  @ApiNotFoundResponse({
     description: 'Error al buscar usuarios',
-    status: 400,
+    status: 404,
   })
   findAllUser(): Promise<User[]> {
     return this.usersService.findAll();
@@ -52,10 +53,7 @@ export class UsersController {
     description: 'Usuario encontrados exitosamente',
     status: 200,
   })
-  @ApiBadRequestResponse({
-    description: 'Error al buscar usuario',
-    status: 400,
-  })
+  @ApiNotFoundResponse({ description: 'Error al buscar usuario', status: 404 })
   findByUserName(@Param('UserName') UserName: string): Promise<User> {
     return this.usersService.findByUserName(UserName);
   }
@@ -69,9 +67,9 @@ export class UsersController {
     description: 'Usuarios encontrados exitosamente',
     status: 200,
   })
-  @ApiBadRequestResponse({
+  @ApiNotFoundResponse({
     description: 'Error al buscar usuarios',
-    status: 400,
+    status: 404,
   })
   getAllByFilter(@Param('text') text: string): Promise<User[]> {
     return this.usersService.findByFilter(text);
@@ -86,9 +84,9 @@ export class UsersController {
     description: 'Usuario creado  exitosamente',
     status: 200,
   })
-  @ApiBadRequestResponse({
+  @ApiNotFoundResponse({
     description: 'Error al crear usuario',
-    status: 400,
+    status: 404,
   })
   createUser(@Body() payload: CreateUserDto): Promise<User> {
     return this.usersService.create(payload);
@@ -103,9 +101,9 @@ export class UsersController {
     description: 'Usuario editado exitosamente',
     status: 200,
   })
-  @ApiBadRequestResponse({
+  @ApiNotFoundResponse({
     description: 'Error al editar usuarios',
-    status: 400,
+    status: 404,
   })
   updateUser(
     @Param('id', ParseUUIDPipe) id: string,
@@ -122,9 +120,9 @@ export class UsersController {
     description: 'Usuario eliminado exitosamente',
     status: 200,
   })
-  @ApiBadRequestResponse({
+  @ApiNotFoundResponse({
     description: 'Error al eliminar  usuarios',
-    status: 400,
+    status: 404,
   })
   deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.delete(id);
