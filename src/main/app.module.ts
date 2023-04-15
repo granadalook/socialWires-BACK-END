@@ -6,6 +6,7 @@ import { environments } from '../environments';
 import config from '../config/config';
 import { DatabaseModule } from 'src/database/database.module';
 import { UsersModule } from 'src/users/users.module';
+import { LoginModule } from 'src/login/login.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UsersModule } from 'src/users/users.module';
     }),
     DatabaseModule,
     UsersModule,
+    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],

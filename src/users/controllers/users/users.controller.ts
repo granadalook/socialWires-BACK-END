@@ -9,12 +9,16 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/login/decorators/public.decorator';
+import { JwtGuard } from 'src/login/guards/jwt.guard';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dto/user.dto';
 import { UsersService } from 'src/users/services/users/users.service';
 @ApiTags('USERS')
 @Controller('users')
+@UseGuards(JwtGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
@@ -23,6 +27,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
   @Post()
+  @Public()
   @ApiOperation({ summary: 'CREA UN NUEVO USUARIO' })
   createUser(@Body() payload: CreateUserDto) {
     return this.usersService.create(payload);
