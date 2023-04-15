@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: socialwire
+      POSTGRES_USER: socialwire
+      POSTGRES_PASSWORD: socialwire123
+    ports:
+      - 5434:5432
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
