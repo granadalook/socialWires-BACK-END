@@ -1,9 +1,11 @@
+import { Post } from 'src/post/entity/post.entity';
 import {
   Entity,
   Column,
   CreateDateColumn,
   PrimaryGeneratedColumn,
   Index,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
@@ -28,4 +30,7 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
   })
   creacion: Date;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }

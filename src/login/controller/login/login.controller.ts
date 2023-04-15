@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from 'src/login/dto/login.dto';
 import { LoginService } from 'src/login/services/login/login.service';
 
@@ -18,6 +18,10 @@ export class LoginController {
   constructor(private loginService: LoginService) {}
   @UseGuards(AuthGuard('authJwt'))
   @ApiOperation({ summary: 'GERERA UN JWT PARA USUARIO AUTENTICADO ' })
+  @ApiOkResponse({
+    description: 'Usuario logueado exitosamente',
+    status: 202,
+  })
   @HttpCode(HttpStatus.ACCEPTED)
   @Post('login')
   login(@Body() user: LoginDto) {

@@ -7,6 +7,7 @@ import config from '../config/config';
 import { DatabaseModule } from 'src/database/database.module';
 import { UsersModule } from 'src/users/users.module';
 import { LoginModule } from 'src/login/login.module';
+import { PostModule } from 'src/post/post.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LoginModule } from 'src/login/login.module';
     DatabaseModule,
     UsersModule,
     LoginModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],
