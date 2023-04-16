@@ -21,10 +21,11 @@ export class PostService {
       where: { userName: data.userName },
     });
     newPost.user = user;
-    if (!this.postRepo.save(newPost)) {
+    const nuevo = this.postRepo.save(newPost);
+    if (!nuevo) {
       throw new NotFoundException(`ERROR  AL CREAR POST INTENTE DE NUEVO`);
     }
-    return this.postRepo.save(newPost);
+    return nuevo;
   }
   async findByDate(frontDate: Date, toDate: Date): Promise<Post[]> {
     const posts = await this.postRepo.find({
