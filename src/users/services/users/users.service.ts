@@ -4,6 +4,7 @@ import { CreateUserDto, UpdateUserDto } from 'src/users/dto/user.dto';
 import { Like, Repository } from 'typeorm';
 import { User } from 'src/users/entity/user.entity';
 import * as bcrypt from 'bcrypt';
+import { Logger } from '@nestjs/common';
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
@@ -47,8 +48,7 @@ export class UsersService {
         const create = await this.userRepo.save(newUser);
         return create;
       } catch (error) {
-        //loger
-        console.log('error', error);
+        Logger.error('error');
         if (error.code === '23505') {
           throw new NotFoundException(
             `USUARIO YA EXISTE POR FAVOR VERIFIQUE LOS DATOS INGRESADOS `,
