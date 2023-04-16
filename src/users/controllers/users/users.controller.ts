@@ -19,6 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { Public } from 'src/login/decorators/public.decorator';
 import { JwtGuard } from 'src/login/guards/jwt.guard';
+import { Post as post } from 'src/post/entity/post.entity';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dto/user.dto';
 import { User } from 'src/users/entity/user.entity';
 import { UsersService } from 'src/users/services/users/users.service';
@@ -53,8 +54,9 @@ export class UsersController {
     status: 200,
   })
   @ApiNotFoundResponse({ description: 'Error al buscar usuario', status: 404 })
-  findByUserName(@Param('UserName') UserName: string): Promise<User> {
-    return this.usersService.findByUserName(UserName);
+  async findByUserName(@Param('UserName') UserName: string) {
+    const user = await this.usersService.findByUserName(UserName);
+    return user.posts;
   }
   @Get('filterAll/:text')
   @ApiOperation({
