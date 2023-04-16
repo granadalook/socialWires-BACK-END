@@ -16,7 +16,7 @@ Social Wires es una red social que busca facilitar en un espacio publicaciones d
    npm install
    ```
 
-3. Cree in archivo `.env` en la base del proyecto y aguegue las variables de entorno
+3. Cree un archivo `.env` en la base del proyecto y agregue las variables de entorno
 
    ```js
    POSTGRES_DB = socialwire;
@@ -28,7 +28,7 @@ Social Wires es una red social que busca facilitar en un espacio publicaciones d
    DATABASE_PORT = 5432;
    ```
 
-4. Correr el siguiente comando usando docker para levanta la base de datos
+4. Correr el siguiente comando usando docker para levantar la base de datos
 
    ```sh
    docker-compose up -d
