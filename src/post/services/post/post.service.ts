@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from 'src/post/dto/CreatePostDto.dto';
 import { Post } from 'src/post/entity/post.entity';
 import { User } from 'src/users/entity/user.entity';
-import { Repository, Between } from 'typeorm';
+import { Repository, Between, Like } from 'typeorm';
 
 @Injectable()
 export class PostService {
@@ -18,7 +18,7 @@ export class PostService {
   async create(data: CreatePostDto): Promise<Post> {
     const newPost = this.postRepo.create(data);
     const user: User = await this.userRepo.findOne({
-      where: { id: data.userId },
+      where: { userName: data.userName },
     });
     newPost.user = user;
     if (!this.postRepo.save(newPost)) {
@@ -31,6 +31,7 @@ export class PostService {
       where: {
         fechaCreacion: Between(frontDate, toDate),
       },
+      relations: ['user'],
     });
     if (posts.length === 0) {
       throw new NotFoundException(
@@ -38,5 +39,15 @@ export class PostService {
       );
     }
     return posts;
+  }
+  async findByFilter(text: string): Promise<Post[]> {
+    const post = await this.postRepo.find({
+      where: [{ title: Like(`%${text}%`) }, { texto: Like(`%${text}%`) }],
+      relations: ['user'],
+    });
+    if (!post) {
+      throw new NotFoundException(`POST DE  ${text}  NO EXISTE`);
+    }
+    return post;
   }
 }

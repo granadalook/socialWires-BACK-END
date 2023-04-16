@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -61,5 +60,22 @@ export class PostController {
     @Query('toDate') toDate: Date,
   ): Promise<post[]> {
     return this.postService.findByDate(fromDate, toDate);
+  }
+  @Get('filterAll/:text')
+  @ApiOperation({
+    summary: 'FILTRA LOS POST POR  SUS ATRIBUTOS',
+    description:
+      'Busca en la base de datos cualquier concidencia  basado en sus atributos',
+  })
+  @ApiOkResponse({
+    description: 'post encontrados exitosamente',
+    status: 200,
+  })
+  @ApiNotFoundResponse({
+    description: 'Error al buscar post',
+    status: 404,
+  })
+  getAllByFilter(@Param('text') text: string): Promise<post[]> {
+    return this.postService.findByFilter(text);
   }
 }

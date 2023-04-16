@@ -20,7 +20,7 @@ export class CreatePostDto {
     description: 'ID DEL USIARIO QUE CREO EL POST',
     example: '02d43c36-47ce-4c6e-ae52-bfce1239e719',
   })
-  readonly userId: string;
+  readonly userName: string;
 }
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {}

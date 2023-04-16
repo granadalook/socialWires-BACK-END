@@ -47,6 +47,7 @@ export class UsersService {
         const create = await this.userRepo.save(newUser);
         return create;
       } catch (error) {
+        //loger
         console.log('error', error);
         if (error.code === '23505') {
           throw new NotFoundException(
@@ -57,17 +58,17 @@ export class UsersService {
     }
   }
   async findByFilter(text: string): Promise<User[]> {
-    const entidad = await this.userRepo.find({
+    const user = await this.userRepo.find({
       where: [
         { userName: Like(`%${text}%`) },
         { fullName: Like(`%${text}%`) },
         { email: Like(`%${text}%`) },
       ],
     });
-    if (!entidad) {
-      throw new NotFoundException(`ENTIDAD DE  ${text}  NO EXISTE`);
+    if (!user) {
+      throw new NotFoundException(`USER DE  ${text}  NO EXISTE`);
     }
-    return entidad;
+    return user;
   }
 
   async update(id: string, changes: UpdateUserDto): Promise<User> {
